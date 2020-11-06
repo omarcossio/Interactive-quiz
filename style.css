@@ -1,0 +1,23 @@
+body {
+    background-color: aqua;
+}
+
+header {
+    background-color: skyblue;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.container {
+    background-color: thistle;
+}
+
+.quiz {
+    background-color: red;
+    height: 200px;
+    display: block;
+}
+
+.buttons {
+    text-align: center;
+}
