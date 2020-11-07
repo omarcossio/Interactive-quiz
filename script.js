@@ -8,6 +8,18 @@ var optionB = document.querySelector("#choiceB");
 var optionC = document.querySelector("#choiceC");
 var rightWrong = document.querySelector("#rightWrong")
 var welcome = document.querySelector(".welcome");
+var last = document.querySelector(".last");
+var nameForm = document.querySelector("#nameForm");
+var score = 0;
+
+var storedNames = JSON.parse(window.localStorage.getItem("nameArray"));
+
+var nameArray = [];
+
+last.style.display = "none";
+
+
+
 //Array composed of question objects
 var questionOptions = [
     {
@@ -54,33 +66,46 @@ var questionOptions = [
 //current question indicator
 var currentQuestionIndex = 0;
 
+
+
 //function that displays question on webpage
 function displayQuestion() {
-
+    startButton.style.display="none";
     question.textContent = questionOptions[currentQuestionIndex].q;
     optionA.textContent = questionOptions[currentQuestionIndex].choices[0];
     optionB.textContent = questionOptions[currentQuestionIndex].choices[1];
     optionC.textContent = questionOptions[currentQuestionIndex].choices[2];
 
     //sets timeout on right or wrong indicator
-    if(currentQuestionIndex != 0) {
-        setTimeout(function() {rightWrong.textContent="";}, 1500);
-    }   
+    if (currentQuestionIndex != 0) {
+        setTimeout(function () { rightWrong.textContent = ""; }, 1500);
+    }
+
 }
 
 //Tests for right answer
 var userAnswer;
 function answerChosen(userAnswer) {
     var rightAnswer = questionOptions[currentQuestionIndex].answerIndex;
-    
-    if(userAnswer == rightAnswer){
-        rightWrong.textContent="You are RIGHT!";
+
+    if (userAnswer != rightAnswer) {
+        rightWrong.textContent = "You are WRONG!";
+        //reducing time left because of incorrect answer
+        secondsLeft -= 10;
     }
     else {
-        rightWrong.textContent="You are WRONG!";
+        rightWrong.textContent = "You are RIGHT!";
+        score++;
     }
     currentQuestionIndex++;
-    displayQuestion();
+    if (currentQuestionIndex < 4) {
+
+        displayQuestion();
+    }
+    else {
+        gameOver();
+    }
+
 }
 
 
@@ -94,16 +119,18 @@ function startQuiz() {
 //Event listeners
 startButton.addEventListener("click", startQuiz);
 
+var answerOption;
+
 optionA.addEventListener("click", function (sendAnswer) {
-    var answerOption = 0;
+    answerOption = 0;
     answerChosen(answerOption);
 });
 optionB.addEventListener("click", function (sendAnswer) {
-    var answerOption = 1;
+    answerOption = 1;
     answerChosen(answerOption)
 });
 optionC.addEventListener("click", function (sendAnswer) {
-    var answerOption = 2;
+    answerOption = 2;
     answerChosen(answerOption)
 });
 
@@ -115,7 +142,53 @@ function startTimer() {
 
         if (secondsLeft === 0) {
             clearInterval(timerInterval);
-            sendMessage();
+            last.style.display = "block";
+            gameOver();
         }
     }, 1000);
 }
+
+function gameOver() {
+    question.textContent = "GAME OVER";
+    optionA.textContent = "";
+    optionB.textContent = "";
+    optionC.textContent = "";
+    rightWrong.textContent = "";
+    
+    secondsLeft = 1;
+
+
+}
+
+
+function storeNames() {
+    // Stringify and set "userNames" key in localStorage to userNames array
+    window.localStorage.setItem("nameArray", JSON.stringify(nameArray));
+}
+
+// When form is submitted...
+nameForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var userInput = document.getElementById("nameInput");
+    var userName = " " + score + " - " + userInput.value.trim();
+
+    // Return from function early if submitted todoText is blank
+    if (userName === "") {
+        return;
+    }
+
+    // Add new userName to nameArray array, clear the input
+    if(storeNames !=null){
+        nameArray = storedNames;
+    }
+    
+    nameArray.push(userName);
+    userInput.value = "";
+    document.location.href = "./highscore.html";
+
+    // Store updated userNames in localStorage, re-render the list
+    storeNames();
+});
+
+
+
