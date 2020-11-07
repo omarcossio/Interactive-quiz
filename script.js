@@ -19,6 +19,7 @@ var nameArray = [];
 last.style.display = "none";
 
 
+
 //Array composed of question objects
 var questionOptions = [
     {
@@ -169,7 +170,7 @@ function storeNames() {
 nameForm.addEventListener("submit", function (event) {
     event.preventDefault();
     var userInput = document.getElementById("nameInput");
-    var userName = userInput.value.trim() + " - " + score ;
+    var userName = " " + score + " - " + userInput.value.trim();
 
     // Return from function early if submitted todoText is blank
     if (userName === "") {
