@@ -11,12 +11,14 @@ var welcome = document.querySelector(".welcome");
 var last = document.querySelector(".last");
 var nameForm = document.querySelector("#nameForm");
 var score = 0;
+var quiz = document.querySelector(".quiz");
 
 var storedNames = JSON.parse(window.localStorage.getItem("nameArray"));
 
 var nameArray = [];
 
 last.style.display = "none";
+quiz.style.display = "none";
 
 
 
@@ -70,6 +72,7 @@ var currentQuestionIndex = 0;
 
 //function that displays question on webpage
 function displayQuestion() {
+    quiz.style.display = "block";
     startButton.style.display="none";
     question.textContent = questionOptions[currentQuestionIndex].q;
     optionA.textContent = questionOptions[currentQuestionIndex].choices[0];
@@ -154,6 +157,7 @@ function gameOver() {
     optionB.textContent = "";
     optionC.textContent = "";
     rightWrong.textContent = "";
+    quiz.style.display="none";
     
     secondsLeft = 1;
 

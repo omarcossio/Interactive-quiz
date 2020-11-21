@@ -1,21 +1,19 @@
-body {
-    background-color: aqua;
-}
 
 header {
-    background-color: skyblue;
     text-align: center;
     text-decoration: underline;
 }
 
-.container {
-    background-color: thistle;
-}
+
 
 .quiz {
-    background-color: red;
     height: 200px;
     display: block;
+}
+
+button{
+    background-color:#17a2b8;
+    color: white;
 }
 
 .buttons {
